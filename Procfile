@@ -1,1 +1,1 @@
-web: gunicorn gramapp.wsgi
+web: gunicorn instagrama.wsgi
