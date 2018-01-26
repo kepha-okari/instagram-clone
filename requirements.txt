@@ -3,7 +3,6 @@ Django==1.11
 django-bootstrap3==9.1.0
 django-registration==2.4.1
 Pillow==5.0.0
-pkg-resources==0.0.0
 psycopg2==2.7.3.2
 pytz==2017.3
 whitenoise==3.3.1
