@@ -1,20 +1,29 @@
 
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load staticfiles%}
+<!-- Styles block -->
+{% block styles %}
+
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'css/index.css'%}">
+
+{% endblock %}
+
+ {% block content %}
 <section class="no-touch">
 
   {% for image in images %}
-  <div class="wrap col-md-3">
-    <a href="">
-    <div class="box">
-      <div class="boxInner">
-        <img src="{{ image.image.url }}"  class="img-responsive">
-        <div class="titleBox" style="font-family: 'Cabin Sketch', cursive">{{image.image_caption|upper}}</div>
+    <div class="wrap col-md-3">
+      <a href="" >
+      <div class="box">
+        <div class="boxInner" >
+          <img src="{{ image.image.url }}"  class="img-responsive" >
+          <div class="titleBox" style="font-family: 'Cabin Sketch', cursive">{{image.image_caption|upper}}</div>
+        </div>
       </div>
-    </div>
 
-  </div>
-{% endfor %}
+    </div>
+  {% endfor %}
 
 </section>
-
 {% endblock %}

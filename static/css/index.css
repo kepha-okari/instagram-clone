@@ -1,0 +1,38 @@
+/*Style my profile template*/
+div.row.profileHeaderRow{
+    margin-top: 2em;
+    margin-left: 4em;
+}
+
+img.img-responsive.profilePicture{
+    border-radius: 100%;
+}
+
+h1.username{
+    margin-top: 2.5em;
+    margin-left: 4em;
+}
+
+h1.createPost{
+    margin-left: 4em;
+}
+
+h1.createPost > a{
+    color: #000;
+}
+
+h1.createPost > a:hover{
+    color: #000;
+    text-decoration: none;
+}
+
+i.fa.fa-plus-square-o{
+    margin-left: 0.25em;
+}
+
+img.img-responsive.postImage{
+    height: 45vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
