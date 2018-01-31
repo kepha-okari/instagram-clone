@@ -6,5 +6,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$',views.index,name='homePage'),
+    url(r'^profile/(\d+)',views.profile, name='profileView'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ]

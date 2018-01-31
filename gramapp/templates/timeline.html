@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+<section class="no-touch">
+
+  {% for image in images %}
+  <div class="wrap col-md-3">
+    <a href="{% url 'singlePhoto' image.id %} ">
+    <div class="box">
+      <div class="boxInner">
+        <img src="{{ image.photo.url }}"  class="img-responsive">
+        <div class="titleBox" style="font-family: 'Cabin Sketch', cursive">{{image.name|upper}}</div>
+      </div>
+    </div>
+
+  </div>
+{% endfor %}
+
+</section>
+
+{% endblock %}
