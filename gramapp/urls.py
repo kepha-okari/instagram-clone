@@ -1,5 +1,7 @@
 from django.conf.urls import url,include
 from django.contrib.auth.decorators import login_required #restricting access to images for only registered users
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
