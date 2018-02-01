@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load staticfiles%}
+{% load static %}
+
 
 <!-- Styles block -->
 {% block styles %}
@@ -18,7 +19,7 @@
       <h1 class="createPost">
 
           <a href=" {% url 'postImage'%}">
-              Create Post
+               <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
           </a>
 
@@ -38,7 +39,7 @@
         {% for detail in info %}
 
         <div class="col-md-4 col-lg-4">
-            <img src="{{detail.profile_photo.url}}" alt="{{Image.image_caption}}" class="img-responsive postImage">
+            <img src="{{detail.profile_photo.url}}" alt="{{Image.image_caption}}" class="img-responsive"  id="circular-image">
             <hr>
             <p>{{detail.bio}}</p>
         </div>
@@ -48,7 +49,7 @@
         <div class="col-md-6">
             {% for pic in pics %}
             <div class="col-md-4">
-
+              <button type="button" class="btn btn-danger-sm" name="button">remove</button>
               <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive postImage" width="60%" height="40%x" style="padding:5px;">
             </div>
 

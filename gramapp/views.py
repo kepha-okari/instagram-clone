@@ -14,13 +14,15 @@ import os
 # def index(request):
 #     return render(request, 'index.html')
 # # def welcome(request):
+
+@login_required(login_url='/accounts/login')
 def index(request):
     images = Image.get_images()
     return render(request, 'index.html', {"images": images})
 
 
-@login_required(login_url='/accounts/register')
-def profile(request,id):
+@login_required(login_url='/accounts/login')
+def profile(request):
     '''
     View function to display the profile of the logged in user when they click on the user icon
     '''
@@ -32,9 +34,9 @@ def profile(request,id):
 
         title = f'{current_user.username}\'s'
 
-        # info = Image.objects.filter(user=current_user.id)
         info = Profile.objects.filter(user=current_user.id)
-        pics = Image.get_images
+        pics = Image.objects.filter(user=current_user.id)
+        # pics = Image.get_images
         return render(request, 'profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics})
 
     except DoesNotExists:
@@ -47,7 +49,7 @@ def new_post(request):
     '''
     current_user = request.user
 
-    current_profile = current_user.profile
+    # current_profile = current_user.profile
 
     if request.method == 'POST':
 
@@ -56,7 +58,7 @@ def new_post(request):
         if form.is_valid:
             post = form.save(commit=False)
             post.user = current_user
-            post.profile = current_profile
+            # post.profile = current_profile
             post.save()
 
             return redirect(profile, current_user.id)

@@ -32,11 +32,6 @@ class Profile(models.Model):
 
         return profiles
 
-# Create your models here v.
-class Comments(models.Model):
-    comment = models.TextField()
-    user = models.ForeignKey(User)
-
 
 class Image(models.Model):
     image = models.ImageField(upload_to = 'photos/', null = True)
@@ -44,7 +39,6 @@ class Image(models.Model):
     image_caption =models.TextField(max_length = 30, null =True,blank=True)
     likes = models.IntegerField(null =True,blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True)
-    comments = models.ManyToManyField(Comments, null =True,blank=True)
     user = models.ForeignKey(User)
 
     def save_image(self):
@@ -65,3 +59,26 @@ class Image(models.Model):
         '''
         images = Image.objects.all()
         return images
+
+class Comment(models.Model):
+    '''
+    Class that defines a Comment on a Post
+    '''
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(Image,on_delete=models.CASCADE)
+    opinion = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+    @classmethod
+    def get_post_comments(cls,post_id):
+        ''' Function that gets all the comments belonging to a single post
+        Args:
+            post_id : specific post
+        Returns:
+            comments : List of Comment objects for the specified post
+        '''
+        comments_list = Comment.objects.filter(post=post_id)
+
+        return comments_list
