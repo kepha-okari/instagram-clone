@@ -17,7 +17,7 @@
     <div class="container">
       <h1 class="createPost">
 
-          <a href="">
+          <a href=" {% url 'postImage'%}">
               Create Post
               <i class="fa fa-plus-square-o" aria-hidden="true"></i>
           </a>
@@ -44,6 +44,16 @@
         </div>
 
         {% endfor %}
+
+        <div class="col-md-6">
+            {% for pic in pics %}
+            <div class="col-md-4">
+
+              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive postImage" width="60%" height="40%x" style="padding:5px;">
+            </div>
+
+            {% endfor %}
+        </div>
 
     </div>
 

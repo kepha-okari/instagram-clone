@@ -42,7 +42,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to = 'photos/', null = True)
     image_name = models.CharField(max_length=30)
     image_caption =models.TextField(max_length = 30, null =True,blank=True)
-    likes = models.IntegerField()
+    likes = models.IntegerField(null =True,blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True)
     comments = models.ManyToManyField(Comments, null =True,blank=True)
     user = models.ForeignKey(User)
