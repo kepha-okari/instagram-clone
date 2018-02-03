@@ -4,17 +4,25 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://use.fontawesome.com/80caa23151.js"></script>
 </head>
 <body>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href=""> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2000px-Instagram_logo.svg.png" width=80pxpx height=35px alt="INSTAGRAM"> </a>
+      <div class="navbar-header col-sm-4 col-sm-offset-4">
+          <a href="{% url 'timeline'%}" class="navbar-brand siteIcon">
+              <i class="fa fa-instagram 2x" aria-hidden="true"></i>
+          </a>
+
+          <a class="navbar-brand" href="{% url 'timeline'%}">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2000px-Instagram_logo.svg.png" width=80pxpx height=35px alt="INSTAGRAM">
+          </a>
+
       </div>
 
 
     <!-- Adding a search form  -->
-      <div class="col-sm-4 col-md-4 navbar-right">
+      <div class="col-sm-4 col-md-4 col-md-offset-3 navbar-center">
 
         <form class="navbar-form" role="search" action="">
 
@@ -26,9 +34,10 @@
           </div>
 
         </form>
-
+        <p>{{request.user}} {{request.user.id}}</p>
 
       <!-- search form end  -->
+
       <div class="col-sm-6 col-md-6">
               {% if user.is_authenticated %}
               <ul>
@@ -37,12 +46,13 @@
                             <span class="caret"></span>
                         </a>
                   <ul class="dropdown-menu" role="menu">
-                
                     <li>
                       <a href="/accounts/password/change">Change Password</a>
                     </li>
                     <li>
                       <a href="/logout">Logout</a>
+                    </li>
+                    <a href="{{'profile'}}">profile</a>
                     </li>
                   </ul>
                 </li>

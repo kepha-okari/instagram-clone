@@ -16,37 +16,35 @@
     {{block.super}}
 
     <div class="container">
-      <h1 class="createPost">
-
-          <a href=" {% url 'postImage'%}">
-               <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
-              <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-          </a>
-
-      </h1>
-
       <div class="row ">
-            <div class="col-md-6 col-lg-6">
+        <div class=" well col-md-4 col-lg-4">
+              <h1 class="createPost">
+                  <a href=" {% url 'postImage'%}">
+                       <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
+                      <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                  </a>
+              </h1>
+
                 <h1 class="username">
                     {{current_user.username}}
                 </h1>
-            </div>
-        </div>
+                  <hr>
 
-        <hr>
+                {% for detail in info %}
+
+                      <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive"  id="circular-image">
+                    <hr>
+                    <p>{{detail.bio}}</p>
+
+                {% endfor %}
+            </div>
+
+
+
 
         <!-- Current User's Posts  -->
-        {% for detail in info %}
 
-        <div class="col-md-4 col-lg-4">
-            <img src="{{detail.profile_photo.url}}" alt="{{Image.image_caption}}" class="img-responsive"  id="circular-image">
-            <hr>
-            <p>{{detail.bio}}</p>
-        </div>
-
-        {% endfor %}
-
-        <div class="col-md-6">
+        <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
             {% for pic in pics %}
             <div class="col-md-4">
               <button type="button" class="btn btn-danger-sm" name="button">remove</button>
@@ -54,6 +52,8 @@
             </div>
 
             {% endfor %}
+        </div>
+
         </div>
 
     </div>

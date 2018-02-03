@@ -10,20 +10,33 @@
 {% endblock %}
 
  {% block content %}
-<section class="no-touch">
 
-  {% for image in images %}
-    <div class="wrap col-md-3">
-      <a href="" >
-      <div class="box">
-        <div class="boxInner" >
-          <img src="{{ image.image.url }}"  class="img-responsive" >
-          <div class="titleBox" style="font-family: 'Cabin Sketch', cursive">{{image.image_caption|upper}}</div>
-        </div>
-      </div>
+ <div class="col-md-1">
 
-    </div>
-  {% endfor %}
+ </div>
 
-</section>
+       <p><a href="{% url 'profileView' %}">k</p>
+      <section class="no-touch col-md-5">
+
+        {% for image in images %}
+          <div class="wrap col-md-3">
+
+            <div class="box">
+              <div class="boxInner" >
+                <a href="{% url 'otherProfile' image.user.id%}">
+                    <img src="{{ image.image.url }}"  class="img-responsive" >
+                </a>
+                <div class="titleBox" style="font-family: 'Cabin Sketch', cursive">
+                  {{image.image_caption|upper}}   mimi ni {{image.user.id}}
+                   <a href="{% url 'Comment' image.id %}">Comment</a> {{image.user.username}}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        {% endfor %}
+
+      </section>
+
+
 {% endblock %}

@@ -24,7 +24,6 @@ class Profile(models.Model):
     def get_profiles(cls):
         '''
         Fucntion that gets all the profiles in the app
-
         Return
             profiles : list of all Profile obejcts in the database
         '''
@@ -66,7 +65,7 @@ class Comment(models.Model):
     '''
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     post = models.ForeignKey(Image,on_delete=models.CASCADE)
-    opinion = models.TextField(blank=True)
+    comment = models.TextField(blank=True)
 
     def __str__(self):
         return self.user.username
@@ -82,3 +81,12 @@ class Comment(models.Model):
         comments_list = Comment.objects.filter(post=post_id)
 
         return comments_list
+
+
+class liked(models.Model):
+    '''
+    Class that defines a Comment on a Post
+    '''
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(Image,on_delete=models.CASCADE)
+    comment = models.TextField(blank=True)

@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import Http404, HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Image
-from .forms import ImagePostForm
+from .models import Profile,Image,Comment
+from .forms import ImagePostForm,CommentForm
 
 from wsgiref.util import FileWrapper
 import mimetypes
@@ -20,6 +21,17 @@ def index(request):
     images = Image.get_images()
     return render(request, 'index.html', {"images": images})
 
+@login_required(login_url='/accounts/login')
+def single_image(request, photo_id):
+    '''
+    View funtion to display a particular image with its details
+    '''
+    image = Image.objects.get(id = photo_id)
+    user_info = Profile.objects.get(user=image.user.id)#fetch the profile of the user who posted
+    comments = Comment.objects.filter(post=image.id)
+    # comment_info = Profile.objects.get(user=image.user.id)
+    return render(request, 'single-image.html', {'image':image, "user_info":user_info})
+
 
 @login_required(login_url='/accounts/login')
 def profile(request):
@@ -34,22 +46,46 @@ def profile(request):
 
         title = f'{current_user.username}\'s'
 
-        info = Profile.objects.filter(user=current_user.id)
-        pics = Image.objects.filter(user=current_user.id)
-        # pics = Image.get_images
-        return render(request, 'profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics})
+        info = Profile.objects.filter(user=current_user)
 
-    except DoesNotExists:
+        pics = Image.objects.filter(user=request.user.id).all()
+
+    except ObjectDoesNotExist:
+            raise Http404()
+
+    return render(request, 'my-profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics})
+
+
+
+
+@login_required(login_url='/accounts/login')
+def other_profile(request,prof_id):
+    '''
+    View function to display a profile information of other users
+    '''
+    current_user = request.user
+
+    try:
+
+        info = Profile.objects.filter(id=prof_id)
+
+        pics = Image.objects.all().filter(user=prof_id)
+
+        title = f'{request.user.username}\'s'
+
+    except ObjectDoesNotExist:
         raise Http404()
 
-@login_required(login_url='/accounts/register')
+    return render(request, 'other-profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics})
+
+
+
+@login_required(login_url='/accounts/login')
 def new_post(request):
     '''
     View function to display a form for creating a post to a logged in authenticated user
     '''
     current_user = request.user
-
-    # current_profile = current_user.profile
 
     if request.method == 'POST':
 
@@ -58,13 +94,24 @@ def new_post(request):
         if form.is_valid:
             post = form.save(commit=False)
             post.user = current_user
-            # post.profile = current_profile
             post.save()
-
-            return redirect(profile, current_user.id)
+            return redirect(profile)
     else:
-
         form = ImagePostForm()
-        title = 'Create Post'
-
     return render(request, 'new-post.html', {"form":form})
+
+@login_required(login_url='/accounts/login/')
+def new_comment(request, image_id):
+    current_image = Image.objects.get(id=image_id)
+    current_user = request.user
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comment = form.save(commit = False)
+            comment.user = current_user
+            comment.post = current_image
+            comment.save()
+        return redirect('profileView')
+    else:
+        form = CommentForm()
+    return render(request, 'new-comment.html', {"form": form, "current_image":current_image})

@@ -26,9 +26,7 @@ class ProfileTestClass(TestCase):
         Test case to check if all profiles are gotten from the database
         '''
         gotten_profiles = Profile.get_profiles()
-
         profiles = Profile.objects.all()
-
         self.assertTrue( len(gotten_profiles) == len(profiles))
 
     def test_get_other_profiles(self):
@@ -42,9 +40,7 @@ class ProfileTestClass(TestCase):
         self.jane.save()
 
         self.test_profile = Profile(user=self.jane,bio="Another Profile")
-
         gotten_profiles = Profile.get_other_profiles(self.james.id)
-
         profiles = Profile.objects.all()
 
 class ImageTestClass(TestCase):
