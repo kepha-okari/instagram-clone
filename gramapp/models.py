@@ -12,7 +12,7 @@ class Tag(models.Model):
 class Profile(models.Model):
     profile_photo = models.ImageField(upload_to = 'profiles/', null=True)
     bio = models.TextField( null=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):
         '''
@@ -38,7 +38,7 @@ class Image(models.Model):
     image_caption =models.TextField(max_length = 30, null =True,blank=True)
     likes = models.IntegerField(null =True,blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-date_uploaded']
@@ -105,10 +105,8 @@ class Like(models.Model):
     def get_post_likes(cls,post_id):
         '''
         Function that gets the likes belonging to a specified post
-
         Args:
             post_id : specific post
-
         Returns:
             post_likes : List of Like objects for the specified post
         '''
@@ -120,11 +118,27 @@ class Like(models.Model):
     def num_likes(cls,post_id):
         '''
         Function that gets the total number of likes a post has
-
         Args:
             post_id : specific post
-
         Returns:
             found_likes : number of likes a post has
         '''
         post = Like.objects.filter(post=post_id)
+
+
+
+class Follow(models.Model):
+    '''
+    Class that store a User and Profile follow status
+    '''
+    user = models.ForeignKey(User)
+    profile = models.ForeignKey(Profile)
+
+
+    def __str__(self):
+        return self.user.username
+
+    @classmethod
+    def get_following(cls,user_id):
+        following =  Follow.objects.filter(user=user_id).all()
+        return following

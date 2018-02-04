@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Image,Comment,Like
+from .models import Profile,Image,Comment,Like,Follow
 from .forms import ImagePostForm,CommentForm
 
 from wsgiref.util import FileWrapper
@@ -121,7 +121,7 @@ def new_comment(request, image_id):
 
 
 
-@login_required(login_url='/accounts/register')
+@login_required(login_url='/accounts/login')
 def like(request,id):
     '''
     View function add a like to a post the current user has liked
@@ -135,3 +135,20 @@ def like(request,id):
     like.save()
 
     return redirect(single_image,current_image.id)
+
+
+
+@login_required(login_url='/accounts/register')
+def follow(request,id):
+    '''
+    View function to add a profile to the current user's timeline
+    '''
+    current_user = request.user
+
+    follow_profile = Profile.objects.get(id=id)
+
+    following = Follow(user=current_user, profile=follow_profile)
+
+    following.save()
+
+    return redirect(timeline)
