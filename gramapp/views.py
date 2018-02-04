@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from .models import Profile,Image,Comment
+from .models import Profile,Image,Comment,Like
 from .forms import ImagePostForm,CommentForm
 
 from wsgiref.util import FileWrapper
@@ -29,8 +29,9 @@ def single_image(request, photo_id):
     image = Image.objects.get(id = photo_id)
     user_info = Profile.objects.get(user=image.user.id)#fetch the profile of the user who posted
     comments = Comment.objects.filter(post=image.id)
-    # comment_info = Profile.objects.get(user=image.user.id)
-    return render(request, 'single-image.html', {'image':image, "user_info":user_info})
+    upvotes = Like.objects.all().filter(post=image.id)
+    likes = len(upvotes)
+    return render(request, 'single-image.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes})
 
 
 @login_required(login_url='/accounts/login')
@@ -100,6 +101,8 @@ def new_post(request):
         form = ImagePostForm()
     return render(request, 'new-post.html', {"form":form})
 
+
+
 @login_required(login_url='/accounts/login/')
 def new_comment(request, image_id):
     current_image = Image.objects.get(id=image_id)
@@ -115,3 +118,20 @@ def new_comment(request, image_id):
     else:
         form = CommentForm()
     return render(request, 'new-comment.html', {"form": form, "current_image":current_image})
+
+
+
+@login_required(login_url='/accounts/register')
+def like(request,id):
+    '''
+    View function add a like to a post the current user has liked
+    '''
+    current_user = request.user
+
+    current_image = Image.objects.get(id=id)
+
+    like = Like(user=current_user,post=current_image,likes_number=int(1))
+
+    like.save()
+
+    return redirect(single_image,current_image.id)

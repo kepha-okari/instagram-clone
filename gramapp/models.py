@@ -40,6 +40,9 @@ class Image(models.Model):
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True)
     user = models.ForeignKey(User)
 
+    class Meta:
+        ordering = ['-date_uploaded']
+
     def save_image(self):
         '''Method to save an image in the database'''
         self.save()
@@ -92,7 +95,7 @@ class Like(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     post = models.ForeignKey(Image,on_delete=models.CASCADE)
     likes_number = models.PositiveIntegerField(null=True, blank=True)
-    
+
 
     def __str__(self):
         return self.user.username
