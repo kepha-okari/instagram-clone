@@ -59,6 +59,7 @@ class Image(models.Model):
         images = Image.objects.all()
         return images
 
+
 class Comment(models.Model):
     '''
     Class that defines a Comment on a Post
@@ -83,10 +84,44 @@ class Comment(models.Model):
         return comments_list
 
 
-class liked(models.Model):
+
+class Like(models.Model):
     '''
-    Class that defines a Comment on a Post
+    Class that define the likes a post gets
     '''
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     post = models.ForeignKey(Image,on_delete=models.CASCADE)
-    comment = models.TextField(blank=True)
+    likes_number = models.PositiveIntegerField(null=True, blank=True)
+    
+
+    def __str__(self):
+        return self.user.username
+
+
+    @classmethod
+    def get_post_likes(cls,post_id):
+        '''
+        Function that gets the likes belonging to a specified post
+
+        Args:
+            post_id : specific post
+
+        Returns:
+            post_likes : List of Like objects for the specified post
+        '''
+        post_likes = Like.objects.filter(post=post_id)
+
+        return post_likes
+
+    @classmethod
+    def num_likes(cls,post_id):
+        '''
+        Function that gets the total number of likes a post has
+
+        Args:
+            post_id : specific post
+
+        Returns:
+            found_likes : number of likes a post has
+        '''
+        post = Like.objects.filter(post=post_id)

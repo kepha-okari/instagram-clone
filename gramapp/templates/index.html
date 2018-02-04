@@ -19,15 +19,15 @@
       <section class="no-touch col-md-5">
 
         {% for image in images %}
-          <div class="wrap col-md-3">
+          <div class="wrap col-md-12">
 
-            <div class="box">
-              <div class="boxInner" >
+            <div class="box col-md-12">
+              <div class="" >
                 <a href="{% url 'otherProfile' image.user.id%}">
-                    <img src="{{ image.image.url }}"  class="img-responsive" >
+                    <img src="{{ image.image.url }}"  class="img-responsive"style="height:60%; width:90%; margin-left:0px" >
                 </a>
-                <div class="titleBox" style="font-family: 'Cabin Sketch', cursive">
-                  {{image.image_caption|upper}}   mimi ni {{image.user.id}}
+                <div style="font-family: 'Cabin Sketch', cursive">
+                  {{image.image_caption|upper}}
                    <a href="{% url 'Comment' image.id %}">Comment</a> {{image.user.username}}
                 </div>
               </div>

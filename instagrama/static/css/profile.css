@@ -1,5 +1,6 @@
 #circular-image {
- border-radius: 120px;
-
-  border: 10px solid rgb(36, 74, 130);
+border-radius: 50%;
+height: 10%;
+width:10%;
+border: 10px solid rgb(36, 74, 130,0);
 }
