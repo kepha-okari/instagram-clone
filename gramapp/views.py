@@ -15,11 +15,36 @@ import os
 # def index(request):
 #     return render(request, 'index.html')
 # # def welcome(request):
+#
+# @login_required(login_url='/accounts/login')
+# def index(request):
+#     images = Image.get_images()
+#     return render(request, 'index.html', {"images": images})
+#
 
+#  ************************************************************************************************************************************#
 @login_required(login_url='/accounts/login')
 def index(request):
-    images = Image.get_images()
-    return render(request, 'index.html', {"images": images})
+    # images = Image.get_images()
+    current_user = request.user
+
+    title = 'Timeline'
+
+    following = Follow.get_following(current_user.id)
+
+    images = []
+    for followed in following:
+        # get profile id for each and use it to find user id
+        profiles = Profile.objects.filter(id=followed.profile.id)
+        for profile in profiles:
+            post = Image.objects.filter(user=profile.user)
+
+            for image in post:
+                images.append(image)
+
+    return render(request, 'index.html', {"images": images, "title": title, "following": following, "user": current_user })
+
+# ********************************************************************************************************************************************
 
 @login_required(login_url='/accounts/login')
 def single_image(request, photo_id):
@@ -29,9 +54,10 @@ def single_image(request, photo_id):
     image = Image.objects.get(id = photo_id)
     user_info = Profile.objects.get(user=image.user.id)#fetch the profile of the user who posted
     comments = Comment.objects.filter(post=image.id)
-    upvotes = Like.objects.all().filter(post=image.id)
+    validate_vote = Like.objects.filter(user=request.user,post=photo_id).count()
+    upvotes = Like.get_post_likes(image.id)
     likes = len(upvotes)
-    return render(request, 'single-image.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes})
+    return render(request, 'single-image.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes, "validate_vote":validate_vote})
 
 
 @login_required(login_url='/accounts/login')
@@ -70,6 +96,10 @@ def other_profile(request,prof_id):
 
         info = Profile.objects.filter(id=prof_id)
 
+        follow_profile = Profile.objects.get(id=prof_id)
+
+        check_if_following = Follow.objects.filter(user=current_user, profile=follow_profile).count()
+
         pics = Image.objects.all().filter(user=prof_id)
 
         title = f'{request.user.username}\'s'
@@ -77,7 +107,7 @@ def other_profile(request,prof_id):
     except ObjectDoesNotExist:
         raise Http404()
 
-    return render(request, 'other-profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics})
+    return render(request, 'other-profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics, "check_if_following":check_if_following})
 
 
 
@@ -126,29 +156,60 @@ def like(request,id):
     '''
     View function add a like to a post the current user has liked
     '''
-    current_user = request.user
+    current_user = request.user #argument must be a string, a bytes-like object or a number, not 'Profile'
 
     current_image = Image.objects.get(id=id)
 
-    like = Like(user=current_user,post=current_image,likes_number=int(1))
+    validate_vote = Like.objects.filter(user=current_user,post=current_image).count()
 
-    like.save()
+    if validate_vote == 0:
+
+        like = Like(user=current_user,post=current_image,likes_number=int(1))
+        like.save()
+
+    else:
+        remove_like = Like.objects.filter(user=current_user,post=current_image)
+        remove_like.delete()
+
 
     return redirect(single_image,current_image.id)
 
 
 
-@login_required(login_url='/accounts/register')
+@login_required(login_url='/accounts/login')
 def follow(request,id):
     '''
-    View function to add a profile to the current user's timeline
+    View function add frofiles of other users to your timeline
     '''
     current_user = request.user
 
     follow_profile = Profile.objects.get(id=id)
 
-    following = Follow(user=current_user, profile=follow_profile)
+    check_if_following = Follow.objects.filter(user=current_user, profile=follow_profile).count()
 
-    following.save()
+    if check_if_following == 0:
 
-    return redirect(timeline)
+        following = Follow(user=current_user, profile=follow_profile)
+
+        following.save()
+    else:
+        pass
+
+    return redirect(index)
+
+
+@login_required(login_url='/accounts/login')
+def unfollow(request,id):
+    '''
+    View function unfollow other users
+    '''
+    current_user = request.user
+
+    follow_profile = Profile.objects.get(id=id)
+
+    following = Follow.objects.filter(user=current_user, profile=follow_profile)
+    # following = Follow(user=current_user, profile=follow_profile)
+    for item in following:
+        item.delete()
+
+    return redirect(index)

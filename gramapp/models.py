@@ -38,7 +38,8 @@ class Image(models.Model):
     image_caption =models.TextField(max_length = 30, null =True,blank=True)
     likes = models.IntegerField(null =True,blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True, null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile,null =True,blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User)
 
     class Meta:
         ordering = ['-date_uploaded']
@@ -50,7 +51,6 @@ class Image(models.Model):
     def delete_image(self):
         ''' Method to delete an image from the database'''
         self.delete()
-
 
     @classmethod
     def get_images(cls):
@@ -142,3 +142,4 @@ class Follow(models.Model):
     def get_following(cls,user_id):
         following =  Follow.objects.filter(user=user_id).all()
         return following
+    

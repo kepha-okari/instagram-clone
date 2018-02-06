@@ -17,45 +17,62 @@
 
     <div class="container">
       <div class="row ">
-        <div class=" well col-md-4 col-lg-4">
-              <h1 class="createPost">
-                  <a href=" {% url 'postImage'%}">
-                       <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
-                      <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                  </a>
-              </h1>
+        <div class=" prof-sect col-md-4 col-lg-4" >
+
               {% for detail in info %}
 
-                <h1 class="username">
+                {% if check_if_following == 0 %}
+
+                <h1 class="createPost">
                     {{detail.user.username}}
+                    <a href=" {% url 'follow' detail.id%}">
+                         <button type="button" name="button" class="btn btn-primary btn-md  pull-right  ">Follow </button>
+                    </a>
                 </h1>
+                {% else %}
+                <h1 class="createPost">
+                    {{detail.user.username}}
+                    <a href=" {% url 'unfollow' detail.id%}">
+                         <button type="button" name="button" class="btn btn-primary btn-md pull-right">Unfollow </button>
+                    </a>
+                </h1>
+                {% endif %}
+
+
                   <hr>
-
-
                       <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive"  id="circular-image">
-                    <hr>
-                    <p>{{detail.bio}}</p>
+                  <hr>
+                  <p>{{detail.bio}}</p>
 
-                {% endfor %}
+                  <!-- end user details -->
+
             </div>
 
 
 
 
-        <!-- Current User's Posts  -->
+                              <!-- Current User's Posts  -->
 
-        <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
-            {% for pic in pics %}
-            <div class="col-md-4">
-              <button type="button" class="btn btn-danger-sm" name="button">remove</button>
-              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive postImage" width="60%" height="40%x" style="padding:5px;">
-            </div>
+                              <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
+                                {% if pics %}
+                                  {% for pic in pics %}
+                                    <div class="col-md-6">
+                                        <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="80%" height="60%x" style="padding:5px;">
+                                    </div>
+                                  {% endfor %}
+                                {% else %}
 
-            {% endfor %}
-        </div>
+                                <div class="col-md-6">
+                                  <p style="color:grey">{{detail.user.username}} has not posted any photo yet</p>
+                                </div>
+                                {% endif %}
+
+                              </div>
 
         </div>
 
     </div>
+
+                {% endfor %}
 
 {% endblock %}

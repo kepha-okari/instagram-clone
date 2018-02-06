@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^post/',views.new_post, name='postImage'),
     url( r'^comment/(\d+)', views.new_comment, name='Comment'),
     url(r'^single/image/(\d+)', views.single_image, name='singleImage'),
+    url(r'^follow/(\d+)', views.follow, name="follow"),
+    url(r'^unfollow/(\d+)', views.unfollow, name="unfollow"),
     url(r'^like/(\d+)', views.like, name="like"),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ]

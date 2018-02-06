@@ -1,11 +1,11 @@
 
 {% extends 'base.html' %}
-{% load staticfiles%}
+{% load static%}
 <!-- Styles block -->
 {% block styles %}
 
     {{block.super}}
-    <link rel="stylesheet" href="{% static 'css/index.css'%}">
+      <link rel="stylesheet" href="{% static 'css/index.css'%}">
 
 {% endblock %}
 
@@ -15,15 +15,13 @@
 
  </div>
 
-       <p><a href="{% url 'profileView' %}">k</p>
+       <p><a href="{% url 'profileView' %}">profile</p>
       <section class="no-touch col-md-5">
-
         {% for image in images %}
           <div class="wrap col-md-12">
-
             <div class="box col-md-12">
               <div class="" >
-                <a href="{% url 'singleImage' image.id%}">
+                <a href="{% url 'singleImage' image.id %}">
                     <img src="{{ image.image.url }}"  class="img-responsive"style="height:60%; width:90%; margin-left:0px" >
                 </a>
                 <div style="font-family: 'Cabin Sketch', cursive">
@@ -32,7 +30,6 @@
                 </div>
               </div>
             </div>
-
           </div>
         {% endfor %}
 

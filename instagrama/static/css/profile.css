@@ -1,6 +1,9 @@
-#circular-image {
-border-radius: 50%;
-height: 10%;
-width:10%;
-border: 10px solid rgb(36, 74, 130,0);
+#circular-image{
+  border-radius: 8%;
+  margin: auto;
+  border: 10px solid rgb(36, 74, 130,0);
+}
+
+.prof-sect {
+  background-color:white;
 }

@@ -17,7 +17,7 @@
 
     <div class="container">
       <div class="row ">
-        <div class=" well col-md-4 col-lg-4">
+        <div class="col-md-4 col-lg-4">
               <h1 class="createPost">
                   <a href=" {% url 'postImage'%}">
                        <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
@@ -32,7 +32,7 @@
 
                 {% for detail in info %}
 
-                      <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive"  id="circular-image">
+                      <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive" width="60%" height="40%"  id="circular-image" >
                     <hr>
                     <p>{{detail.bio}}</p>
 
@@ -46,9 +46,8 @@
 
         <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
             {% for pic in pics %}
-            <div class="col-md-4">
-              <button type="button" class="btn btn-danger-sm" name="button">remove</button>
-              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive postImage" width="60%" height="40%x" style="padding:5px;">
+            <div class="col-md-6 col-sm-12">
+              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="90%" height="70%" style="padding:5px;">
             </div>
 
             {% endfor %}

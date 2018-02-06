@@ -1,25 +1,18 @@
-/*Style my profile template*/
-div.row.profileHeaderRow{
-    margin-top: 2em;
-    margin-left: 4em;
+
+
+
+.no-touch {
+  background-color:white;
+  padding-top: 20px;
+  position
+
 }
 
-img.img-responsive.profilePicture{
-    border-radius: 100%;
-}
 
-h1.username{
-    margin-top: 2.5em;
-    margin-left: 4em;
-}
 
-h1.createPost{
-    margin-left: 4em;
-}
 
-h1.createPost > a{
-    color: #000;
-}
+
+
 
 h1.createPost > a:hover{
     color: #000;
