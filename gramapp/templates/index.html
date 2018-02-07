@@ -15,18 +15,20 @@
 
  </div>
 
-       <p><a href="{% url 'profileView' %}">profile</p>
+
       <section class="no-touch col-md-5">
         {% for image in images %}
           <div class="wrap col-md-12">
             <div class="box col-md-12">
               <div class="" >
                 <a href="{% url 'singleImage' image.id %}">
-                    <img src="{{ image.image.url }}"  class="img-responsive"style="height:60%; width:90%; margin-left:0px" >
+                    <img src="{{ image.image.url }}"  class="img-responsive"style="height:60%; width:90%; margin-left:10px" >
                 </a>
-                <div style="font-family: 'Cabin Sketch', cursive">
+                <div style="margin-bottom:30px;">
                   {{image.image_caption|upper}}
-                   <a href="{% url 'Comment' image.id %}">Comment</a> {{image.user.username}}
+                   <a href="{% url 'Comment' image.id %}">Comment</a>
+                   <span style="color:rgb(35, 106, 180)">{{image.user.username}}</span>
+                    <span style="color:grey ;margin-left:10px; font-size:10px;"> click image to see details</span>
                 </div>
               </div>
             </div>
@@ -34,6 +36,26 @@
         {% endfor %}
 
       </section>
+
+      <section class="col-md-5 col-sm-12">
+        <p>Explore other grammers</p>
+        <div class="col-md-4">
+          {%for profile in grammers %}
+          {% if profile %}
+
+          <img src="{{ profile.profile_photo.url }}"  class="img-responsive"style="margin-left:50%; margin-top:10px;height:40px;width:40px; border-radius:50%; ">
+        </div>
+        </div>
+        <div class="col-md-8">
+          <a href="{% url 'otherProfile' profile.id %}">
+          <p style=" margin-left:10px;color:rgb(19, 175, 167); padding-top:10px; margin-right:20px;font-size:25px;">{{profile.user}}</p></a>
+          <hr style="color:rgb(19, 175, 167);">
+        </div>
+        {% endif %}
+
+        {% endfor %}
+      </section>
+
 
 
 {% endblock %}
