@@ -117,7 +117,7 @@ class Like(models.Model):
     @classmethod
     def num_likes(cls,post_id):
         '''
-        Function that gets the total number of likes a post has
+        Function that gets the total number of likes a post hasLegal
         Args:
             post_id : specific post
         Returns:
@@ -142,4 +142,3 @@ class Follow(models.Model):
     def get_following(cls,user_id):
         following =  Follow.objects.filter(user=user_id).all()
         return following
-    

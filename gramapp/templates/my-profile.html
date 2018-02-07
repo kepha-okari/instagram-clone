@@ -15,46 +15,40 @@
 
     {{block.super}}
 
-    <div class="container">
+ <div class="container">
       <div class="row ">
-        <div class="col-md-4 col-lg-4">
-              <h1 class="createPost">
-                  <a href=" {% url 'postImage'%}">
-                       <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
-                      <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                  </a>
-              </h1>
+        <div class="col-md-4 col-lg-4 margin-left:10px" style="border-color:rgb(19, 175, 167);">
 
-                <h1 class="username">
-                    {{current_user.username}}
-                </h1>
+
                   <hr>
 
                 {% for detail in info %}
 
-                      <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive" width="60%" height="40%"  id="circular-image" >
+                      <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive img-thumbnail" width="60%" height="40%"  id="circular-image"style="border: 10px solid rgb(36, 74, 130,0); margin-bottom:20px;margin-bottom:20px;" ); 
+
                     <hr>
-                    <p>{{detail.bio}}</p>
+                    <p class="well" style="border-color:rgb(19, 175, 167)"> <span style=" color:rgb(19, 175, 167)">Bio :</span> {{detail.bio}}</p>
 
                 {% endfor %}
             </div>
 
 
-
-
         <!-- Current User's Posts  -->
+        <div class=" well col-md-6 " style="padding:5px; border:2px; float:right; height:40%" >
 
-        <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
+          <p style=" color:rgb(19, 175, 167); text-align:left; font-size:25px;"> My Posts</p>
             {% for pic in pics %}
-            <div class="col-md-6 col-sm-12">
-              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="90%" height="70%" style="padding:5px;">
+            <div class="col-md-8 col-sm-12">
+              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="90%" height="90" style="padding:20px; margin-top:10px; border-color:rgb(19, 175, 167)">
+              <p style=" color:rgb(19, 175, 167); text-align:left; margin-left:20px;">{{pic.image_name}}</p>
             </div>
 
             {% endfor %}
+          </div>
         </div>
 
         </div>
 
-    </div>
+
 
 {% endblock %}

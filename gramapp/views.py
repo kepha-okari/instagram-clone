@@ -30,6 +30,10 @@ def index(request):
 
     title = 'Timeline'
 
+    # user_info = Profile.objects.get(user=current_user.id)
+
+    grammers = Profile.get_profiles
+
     following = Follow.get_following(current_user.id)
 
     images = []
@@ -42,7 +46,7 @@ def index(request):
             for image in post:
                 images.append(image)
 
-    return render(request, 'index.html', {"images": images, "title": title, "following": following, "user": current_user })
+    return render(request, 'index.html', {"images": images, "title": title, "following": following, "user": current_user, "grammers":grammers })
 
 # ********************************************************************************************************************************************
 
@@ -144,7 +148,7 @@ def new_comment(request, image_id):
             comment.user = current_user
             comment.post = current_image
             comment.save()
-        return redirect('profileView')
+        return redirect(single_image,current_image.id)
     else:
         form = CommentForm()
     return render(request, 'new-comment.html', {"form": form, "current_image":current_image})
