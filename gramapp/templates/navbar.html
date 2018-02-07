@@ -7,16 +7,22 @@
   <script src="https://use.fontawesome.com/80caa23151.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default" style="margin-top:0px; width:100%;">
     <div class="container-fluid">
-      <div class="navbar-header col-sm-4 col-sm-offset-4">
+      <div class="navbar-header col-sm-12 col-md-4 ">
           <a href="{% url 'timeline'%}" class="navbar-brand siteIcon">
               <i class="fa fa-instagram 2x" aria-hidden="true"></i>
           </a>
 
           <a class="navbar-brand" href="{% url 'timeline'%}">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2000px-Instagram_logo.svg.png" width=80pxpx height=35px alt="INSTAGRAM">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2000px-Instagram_logo.svg.png" width=80px height=35px alt="INSTAGRAM">
           </a>
+        <div class="" style="margin-top:15px;">
+
+          <a href="{{'profile'}} " id="instTitle" style=" margin-left:10px;color:rgb(19, 175, 167); padding-top:50px; margin-right:20px;font-size:25px;">
+            {{request.user.username}}
+          </a>
+        </div>
 
       </div>
 
@@ -25,11 +31,8 @@
 
 
 
-
-
-
     <!-- Adding a search form  -->
-      <div class="col-sm-4 col-md-4 col-md-offset-3 ">
+      <div class="col-sm-4 col-md-4 " style="margin-top:10px;">
 
           <form class="navbar-form" role="search" action="">
             <div class="input-group">
@@ -39,54 +42,80 @@
               </div>
             </div>
           </form>
+        </div>
 
-          <p>{{request.user}} {{request.user.id}}</p>
 
       <!-- search form end  -->
 
 
+          <div class="col-sm-12 col-md-4 menu" >
+
+            <div class="col-4">
 
 
 
+                    {% if user.is_authenticated %}
+                    <ul style="list-style:none; position: relative; margin-top:10px;float:right; text-color:rgb(19, 175, 167);">
+                      <li class="dropdown" style="text-color:rgb(17, 123, 175);">
+                        <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
+                          <span class="caret"></span>
+                        </a>
 
-      <a href=" {% url 'postImage'%}">
-        <button type="button" name="button" class="btn btn-success btn-md">Create Post </button>
-      </a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li>
+                            <a href="/accounts/password/change">Change Password</a>
+                          </li>
 
 
+                          <li>
+                            <a href="{{'profile'}}">profile</a>
+                          </li>
+                          <li>
+                            <a href="/logout">Logout</a>
+                          </li>
+                        </ul>
+                      </li>
 
+                      {% else %}
+                      <li>
+                        <a class='btn btn-default' href="/accounts/login">Login</a>
+                      </li>
+                      <li>
+                        <a href="{% url 'registration_register'  %}">Sign Up</a>
+                      </li>
 
-
-
-
-          <div class="col-sm-6 col-md-6">
-                  {% if user.is_authenticated %}
-                  <ul>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Account
-                                <span class="caret"></span>
-                            </a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li>
-                          <a href="/accounts/password/change">Change Password</a>
-                        </li>
-                        <li>
-                          <a href="/logout">Logout</a>
-                        </li>
-                        <a href="{{'profile'}}">profile</a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                  {% else %}
-                  <li>
-                    <a class='btn btn-default' href="/accounts/login">Login</a>
-                  </li>
-
-                  {% endif %}
+                    </ul>
+                    {% endif %}
           </div>
 
-  </div>
+          <div class="col-2">
+
+          </div>
+
+          <div class="col-6">
+
+
+              <a href="{{'profile'}} " id="instTitle" style="float:right; margin-left:10px; margin-top:10px;font-size:25px;">
+                  <span class="glyphicon glyphicon-user" style="color:rgb(11, 125, 150)"></span>
+              </a>
+
+              <a href="{% url 'timeline'%}"  id="instTitle" style="float:right; margin-left:10px; margin-top:10px; font-size:25px;">
+                  <span class="glyphicon glyphicon-heart" style="color:red"></span>
+              </a>
+
+              <a href=" {% url 'postImage'%}" style="float:right; margin-left:10px; margin-top:12px;font-size:25px;">
+                  <span class="glyphicon glyphicon-plus" style="color:green"></span>
+              </a>
+
+          </div>
+          </div>
+
+
     </nav>
 </body>
 </html>
+
+<script type="text/css">
+
+
+</script>
