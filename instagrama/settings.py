@@ -24,6 +24,7 @@ SECRET_KEY = 'z_e1f*efq*3gh4u_hkf6(#jbk_v3d8_v5wm49vh%l)uipbg-!8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+ALLOWED_HOSTS=['*']
 
 
 # Application definition
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'instagrama.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'instagram',
+        'NAME': 'instagram',e
         'USER': 'rkepha',
         'PASSWORD': 'KR',
     }
