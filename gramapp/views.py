@@ -3,26 +3,13 @@ from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from .models import Profile,Image,Comment,Like,Follow
-from .forms import ImagePostForm,CommentForm
+from .forms import ImagePostForm,CommentForm,ProfileForm
 
 from wsgiref.util import FileWrapper
 import mimetypes
 from django.conf import settings
 import os
 
-
-# Create your views here.
-# def index(request):
-#     return render(request, 'index.html')
-# # def welcome(request):
-#
-# @login_required(login_url='/accounts/login')
-# def index(request):
-#     images = Image.get_images()
-#     return render(request, 'index.html', {"images": images})
-#
-
-#  ************************************************************************************************************************************#
 @login_required(login_url='/accounts/login')
 def index(request):
     # images = Image.get_images()
@@ -48,7 +35,6 @@ def index(request):
 
     return render(request, 'index.html', {"images": images, "title": title, "following": following, "user": current_user, "grammers":grammers })
 
-# ********************************************************************************************************************************************
 
 @login_required(login_url='/accounts/login')
 def single_image(request, photo_id):
@@ -62,6 +48,33 @@ def single_image(request, photo_id):
     upvotes = Like.get_post_likes(image.id)
     likes = len(upvotes)
     return render(request, 'single-image.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes, "validate_vote":validate_vote})
+
+@login_required(login_url='/accounts/login')
+def manage_image(request, photo_id):
+    '''
+    View funtion to display a particular image with its details
+    '''
+    image = Image.objects.get(id = photo_id)
+    user_info = Profile.objects.get(user=image.user.id)#fetch the profile of the user who posted
+    comments = Comment.objects.filter(post=image.id)
+    validate_vote = Like.objects.filter(user=request.user,post=photo_id).count()
+    upvotes = Like.get_post_likes(image.id)
+    likes = len(upvotes)
+    return render(request, 'manage-image.html', {'image':image, "user_info":user_info,"comments":comments, "likes":likes, "validate_vote":validate_vote})
+
+
+
+@login_required(login_url='/accounts/login')
+def delete_post(request,image_id):
+    '''
+    View function to delete an image post
+    '''
+    remove = Image.objects.get(id = image_id)
+    remove.delete()
+    return  redirect(index)
+
+
+
 
 
 @login_required(login_url='/accounts/login')
@@ -81,8 +94,13 @@ def profile(request):
 
         pics = Image.objects.filter(user=request.user.id).all()
 
-    except ObjectDoesNotExist:
-            raise Http404()
+    except:
+
+        title = f'{current_user.username}\'s'
+
+        pics = Image.objects.filter(user=request.user.id).all()
+
+        info = Profile.objects.filter(user=7)
 
     return render(request, 'my-profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics})
 
@@ -104,14 +122,15 @@ def other_profile(request,prof_id):
 
         check_if_following = Follow.objects.filter(user=current_user, profile=follow_profile).count()
 
-        pics = Image.objects.all().filter(user=prof_id)
+        pics = Image.objects.all().filter(user_id=prof_id)
+        nbr = pics.count()
 
         title = f'{request.user.username}\'s'
 
     except ObjectDoesNotExist:
         raise Http404()
 
-    return render(request, 'other-profile.html', {"title":title,"current_user":current_user,"info":info, "pics":pics, "check_if_following":check_if_following})
+    return render(request, 'other-profile.html', {"title":title,"nbr":nbr,"current_user":current_user,"info":info, "pics":pics, "check_if_following":check_if_following})
 
 
 
@@ -136,6 +155,37 @@ def new_post(request):
     return render(request, 'new-post.html', {"form":form})
 
 
+@login_required(login_url='/accounts/login')
+def create_profile(request):
+    '''
+    View function to create and update the profile of the user
+    '''
+    current_user = request.user
+
+    profiles = Profile.objects.filter(user=current_user ).count()
+
+    if request.method == 'POST':
+
+        form = ProfileForm(request.POST, request.FILES)
+
+        if form.is_valid:
+
+            if profiles == 0:
+                k = form.save(commit=False)
+                k.user = current_user
+                k.save()
+                return redirect(profile)
+            else:
+                record = Profile.objects.filter(user=current_user )
+                record.delete()
+                k = form.save(commit=False)
+                k.user = current_user
+                k.save()
+                return redirect(profile)
+    else:
+        form = ProfileForm()
+    return render(request, 'update-profile.html', {"form":form})
+
 
 @login_required(login_url='/accounts/login/')
 def new_comment(request, image_id):
@@ -152,7 +202,6 @@ def new_comment(request, image_id):
     else:
         form = CommentForm()
     return render(request, 'new-comment.html', {"form": form, "current_image":current_image})
-
 
 
 @login_required(login_url='/accounts/login')

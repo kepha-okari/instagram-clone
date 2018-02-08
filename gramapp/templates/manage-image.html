@@ -1,0 +1,67 @@
+
+{% extends 'base.html' %}
+{% load staticfiles%}
+{% load bootstrap3%}
+
+{% block content %}
+
+<div class="col-sm-1">
+
+</div>
+<div class="col-sm-6 col-md-offset-2" style="margin-top:10px">
+  <div class="well" style="background-color:white; margin-bottom:70px">
+    <div class="like" style="font-size:30px">
+    </div>
+
+    <!-- info of the user that posted -->
+    <header style="margin-top:20px; border-bottom: 1px solid #ddd">
+
+      <img src="{{user_info.profile_photo.url}}" alt="" style="height:40px;width:40px; border-radius:50%">
+      <a href="{% url 'otherProfile' image.user.id %}">
+          <p style="display:inline; margin-left:10px; color:rgb(13, 100, 171); font-weight:bolder; font-size:12px; margin-bottom:10px">{{image.user}}</p><br><br>
+      </a>
+      <!-- end user info -->
+
+      <!-- image posted -->
+      <div class="col-12" style="margin-left:0px">
+          <img src="{{image.image.url}}" style="height:70%; width:100%; margin-left:0px"class="img-responsive" ><br>
+      </div>
+      <p style="display:inline; margin-left:10px; margin-top:10px; font-size:16px; margin-bottom:10px">{{image.image_caption}}</p>
+      <p style="font-size:12px; color:grey; margin-top:10px; margin-left:65% "> </p>
+
+      <a href="{% url 'removePost' image.id %}" style="float:right; margin-left:10px;margin-top:10px;">
+            <button type="button" class="btn btn-primary btn-sm" style="float:right" name="button">Delete</button>
+      </a>
+      <a href="#" style="float:right; margin-left:10px;">
+        <button type="button" class="btn btn-primary btn-sm" style="float:right;margin-top:10px;" name="button">Edit</button>
+      </a>
+    </header>
+    <!-- end image posted -->
+
+    {{block.super}}
+
+    <p style="margin-top:10px;font-weight:bolder; font-size:16px">
+
+
+      {% if validate_vote == 0 %}
+
+        <a href="{%url 'like' image.id%}">
+          <i class="fa fa-heart-o" aria-hidden="true"></i>
+        </a>
+
+      {% else %}
+          <a href="{%url 'like' image.id%}">
+              <i class="fa fa-heart" aria-hidden="true" style="color:red;"></i>
+          </a>
+       {% endif %}
+
+      {{likes}} likes </p>
+    <h3 style="text-decoration:none; color:rgb(13, 100, 171); font-size:15px"><a href="{% url 'Comment' image.id %}"><i class="fa fa-comment-o" aria-hidden="true"></i> Comment</a></h3>
+    {% for comment in comments %}
+    <p style="margin-bottom:-1px"><span style=" margin-right:10px; font-weight:bolder; font-size:15px">{{comment.user}}</span> {{comment.comment}}</p>
+    {% endfor %}
+    <hr>
+  </div>
+</div>
+
+{% endblock %}

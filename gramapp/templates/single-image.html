@@ -8,7 +8,7 @@
 <div class="col-sm-1">
 
 </div>
-<div class="col-sm-6" style="margin-top:10px">
+<div class="col-sm-6 col-md-offset-2" style="margin-top:10px">
   <div class="well" style="background-color:white; margin-bottom:70px">
     <div class="like" style="font-size:30px">
     </div>
@@ -29,6 +29,7 @@
       <p style="display:inline; margin-left:10px; margin-top:10px; font-size:16px; margin-bottom:10px">{{image.image_caption}}</p>
       <p style="font-size:12px; color:grey; margin-top:10px; margin-left:65% "> </p>
 
+
     </header>
     <!-- end image posted -->
 
@@ -38,6 +39,7 @@
 
 
       {% if validate_vote == 0 %}
+
         <a href="{%url 'like' image.id%}">
           <i class="fa fa-heart-o" aria-hidden="true"></i>
         </a>
@@ -56,9 +58,5 @@
     <hr>
   </div>
 </div>
-<div class=" well col-md-4  pull-right" style="margin-top:10px; ">
-  <p>stories</p>
-   <!-- position:fixed; top:20%; right:2%;  -->
 
-</div>
 {% endblock %}

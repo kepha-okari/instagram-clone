@@ -17,18 +17,27 @@
 
  <div class="container">
       <div class="row ">
-        <div class="col-md-4 col-lg-4 margin-left:10px" style="border-color:rgb(19, 175, 167);">
+        <div class="col-md-4 col-lg-4 " style="border-color:rgb(19, 175, 167);">
 
 
                   <hr>
 
                 {% for detail in info %}
+                {% if detail.user.id == 7 %}
+                <h4>Hi, {{request.user.username}} ,please create a profile to enjoy photogram</h4>
+                <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive img-thumbnail" width="60%" height="40%"  id="circular-image"style="border: 10px solid rgb(36, 74, 130,0); margin-bottom:20px;margin-bottom:20px;margin-left:20%;" );
 
-                      <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive img-thumbnail" width="60%" height="40%"  id="circular-image"style="border: 10px solid rgb(36, 74, 130,0); margin-bottom:20px;margin-bottom:20px;" ); 
+                <hr>
+                <p class="well" style="border-color:rgb(19, 175, 167)"> <span style=" color:rgb(19, 175, 167)">Bio :</span> {{detail.bio}}</p>
+                <a class="button" href="{%url 'createProfile' %}">Create Profile</a>
+                {% else %}
+                <img src="{{detail.profile_photo.url}}" alt="{{request.user.username}}" class="img-responsive img-thumbnail" width="60%" height="40%"  id="circular-image"style="border: 10px solid rgb(36, 74, 130,0); margin-bottom:20px;margin-bottom:20px;margin-left:20%;" );
 
-                    <hr>
-                    <p class="well" style="border-color:rgb(19, 175, 167)"> <span style=" color:rgb(19, 175, 167)">Bio :</span> {{detail.bio}}</p>
+                <hr>
+                <p class="well" style="border-color:rgb(19, 175, 167)"> <span style=" color:rgb(19, 175, 167)">Bio :</span> {{detail.bio}}</p>
 
+                    <a class="button" href="{% url 'createProfile'  %}">Edit</a>
+                {% endif %}
                 {% endfor %}
             </div>
 
@@ -38,10 +47,17 @@
 
           <p style=" color:rgb(19, 175, 167); text-align:left; font-size:25px;"> My Posts</p>
             {% for pic in pics %}
+             {% if pic %}
             <div class="col-md-8 col-sm-12">
-              <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="90%" height="90" style="padding:20px; margin-top:10px; border-color:rgb(19, 175, 167)">
-              <p style=" color:rgb(19, 175, 167); text-align:left; margin-left:20px;">{{pic.image_name}}</p>
+              <a href="{% url 'manageImage' pic.id  %}#">
+                  <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="90%" height="90" style="padding:20px; margin-top:10px; border-color:rgb(19, 175, 167)">
+                  <p style=" color:rgb(19, 175, 167); text-align:left; margin-left:20px;">{{pic.image_name}}</p>
+
             </div>
+            {% else %}
+            <p>no pic yet</p>
+
+            {% endif %}
 
             {% endfor %}
           </div>

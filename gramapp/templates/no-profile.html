@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+<!-- Styles block -->
+{% block styles %}
+
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}">
+
+{% endblock %}
+
+<!-- Content block -->
+{% block content %}
+
+    {{block.super}}
+
+ <div class="container">
+    <p>no profile</p>
+        </div>
+
+
+
+{% endblock %}

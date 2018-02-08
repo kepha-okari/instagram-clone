@@ -23,12 +23,12 @@
 
                 {% if check_if_following == 0 %}
 
-                <h1 class="createPost">
-                    {{detail.user.username}}
+                <h1>
+                    {{detail.user.username}} pp
                     <a href=" {% url 'follow' detail.id%}">
                          <button type="button" name="button" class="btn btn-primary btn-md  pull-right  ">Follow </button>
                     </a>
-                </h1>
+                </h1><img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="80%" height="60%x" style="padding:5px;">
                 {% else %}
                 <h1 class="createPost">
                     {{detail.user.username}}
@@ -44,6 +44,10 @@
                   <hr>
                   <p>{{detail.bio}}</p>
 
+                  <p>{{detail.id}}</p>
+
+              {% endfor %}
+
                   <!-- end user details -->
 
             </div>
@@ -51,28 +55,29 @@
 
 
 
-                              <!-- Current User's Posts  -->
+                <!-- Current User's Posts  -->
 
-                              <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
-                                {% if pics %}
-                                  {% for pic in pics %}
-                                    <div class="col-md-6">
-                                        <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="80%" height="60%x" style="padding:5px;">
-                                    </div>
-                                  {% endfor %}
-                                {% else %}
 
-                                <div class="col-md-6">
-                                  <p style="color:grey">{{detail.user.username}} has not posted any photo yet</p>
-                                </div>
-                                {% endif %}
+                <div class=" well col-md-6 col-md-offset-1" style="padding:5px; border:2px;" >
 
-                              </div>
+                  {% for pic in pics %}
+                  <div class="col-md-6">
+                    <p class="well " style="color:rgb(21, 181, 171)"> Photos Posted: {{nbr}} </p>
+                    <a href="{% url 'singleImage' pic.id %}">
+                      <img src="{{pic.image.url}}" alt="{{Image.image_name}}" class="img-responsive img-thumbnail postImage" width="80%" height="60%x" style="padding:5px;">
+                    </a>
+                  </div>
+                  {% endfor %}
+
+
+
+
+                </div>
 
         </div>
 
     </div>
 
-                {% endfor %}
+
 
 {% endblock %}
