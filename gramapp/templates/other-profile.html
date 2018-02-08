@@ -24,7 +24,7 @@
                 {% if check_if_following == 0 %}
 
                 <h1>
-                    {{detail.user.username}} pp
+                    {{detail.user.username}}
                     <a href=" {% url 'follow' detail.id%}">
                          <button type="button" name="button" class="btn btn-primary btn-md  pull-right  ">Follow </button>
                     </a>
@@ -44,7 +44,6 @@
                   <hr>
                   <p>{{detail.bio}}</p>
 
-                  <p>{{detail.id}}</p>
 
               {% endfor %}
 
