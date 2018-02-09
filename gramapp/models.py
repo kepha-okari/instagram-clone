@@ -31,6 +31,11 @@ class Profile(models.Model):
 
         return profiles
 
+    @classmethod
+    def search_by_grammer(cls,search_term):
+        query = cls.objects.filter(bio__icontains=search_term)
+        return query
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to = 'photos/', null = True)
