@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+{% load static%}
+<!-- Styles block -->
+{% block styles %}
+
+    {{block.super}}
+      <link rel="stylesheet" href="{% static 'css/index.css'%}">
+
+{% endblock %}
+
+ {% block content %}
+
+ <div class="row col-md-6 col-md-offset-3">
+   {% if users%}
+     <h2>Found {{ users|length }} matching <span style="color:rgb(28, 154, 135)">{{message}}</span></h2>
+   {% else %}
+     <h2> Oops!! {{message}} is not a Grammer yet</h2>
+   {% endif %}
+
+ </div>
+
+ {% if users %}
+   {% for user in users %}
+   <a href="#">
+     <div class="col-md-6 col-md-offset-3">
+       <div class="">
+         <p>
+         <a href="{% url 'otherProfile' found.id %}">
+         <img src="{{ found.profile_photo.url }}"  class="img-responsive" style="height:30px;width:30px; border-radius:50%">
+         <h1>{{user.username}}</h1>
+         </a>
+         </p>
+       </div>
+
+     </div>
+  </a>
+   {% endfor %}
+ {% endif %}
+ </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
