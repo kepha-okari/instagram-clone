@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import Http404, HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Profile,Image,Comment,Like,Follow
 from .forms import ImagePostForm,CommentForm,ProfileForm
 
@@ -266,3 +267,20 @@ def unfollow(request,id):
         item.delete()
 
     return redirect(index)
+
+
+def search_results(request):
+
+    if 'grammer' in request.GET and request.GET["grammer"]:
+        search_term = request.GET.get("grammer")
+        searched_users = User.objects.filter(username__icontains=search_term)
+        message = f"{search_term}"
+
+        for user in searched_users:
+            found = Profile.objects.get(user=user.id)
+
+        return render(request, 'searched.html', {"message":message,"users": searched_users,"found":found})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'searched.html', {"message":message})
